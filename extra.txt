@@ -1,0 +1,221 @@
+INSERT INTO public.products
+    (name, description, price, compare_price, cost_price, stock_quantity, low_stock_alert, weight_grams, category_id, images, tags, sku, is_featured, is_active)
+VALUES
+
+-- Electronics
+(
+    'Smart LED Desk Lamp',
+    'Touch-controlled LED lamp with 5 brightness levels, USB charging port, and memory function. Eye-care certified.',
+    1199.00, 1799.00, 600.00, 80, 10,
+    450,
+    (SELECT id FROM public.categories WHERE slug = 'electronics'),
+    ARRAY['https://placehold.co/600x400/1e293b/ffffff?text=Desk+Lamp'],
+    ARRAY['lamp', 'led', 'desk', 'usb', 'office'],
+    'ELEC-003', FALSE, TRUE
+),
+(
+    'Mechanical Keyboard — TKL RGB',
+    'Tenkeyless mechanical keyboard with Cherry MX Red switches, per-key RGB backlight, and aluminum top plate.',
+    4499.00, 5999.00, 2500.00, 35, 5,
+    780,
+    (SELECT id FROM public.categories WHERE slug = 'electronics'),
+    ARRAY['https://placehold.co/600x400/1e293b/ffffff?text=Keyboard'],
+    ARRAY['keyboard', 'mechanical', 'rgb', 'gaming', 'cherry-mx'],
+    'ELEC-004', TRUE, TRUE
+),
+(
+    'Portable Power Bank 20000mAh',
+    'Dual USB-A + USB-C output. 20W PD fast charging. LED indicator. Airline approved.',
+    1599.00, 2499.00, 800.00, 150, 15,
+    340,
+    (SELECT id FROM public.categories WHERE slug = 'electronics'),
+    ARRAY['https://placehold.co/600x400/1e293b/ffffff?text=Power+Bank'],
+    ARRAY['power-bank', 'battery', 'portable', 'fast-charging'],
+    'ELEC-005', FALSE, TRUE
+),
+(
+    'Smart Watch — Fitness Edition',
+    'Heart rate monitor, SpO2 tracking, 7-day battery, 50m water resistance. iOS & Android compatible.',
+    5999.00, 8999.00, 3200.00, 60, 8,
+    52,
+    (SELECT id FROM public.categories WHERE slug = 'electronics'),
+    ARRAY['https://placehold.co/600x400/1e293b/ffffff?text=Smart+Watch'],
+    ARRAY['smartwatch', 'fitness', 'health', 'wearable'],
+    'ELEC-006', TRUE, TRUE
+),
+
+-- Clothing
+(
+    'Women''s Slim Fit Denim Jeans',
+    'High-waist slim fit jeans in stretch denim. Available in dark blue and black. Sizes 28–36.',
+    1299.00, 1999.00, 550.00, 200, 20,
+    520,
+    (SELECT id FROM public.categories WHERE slug = 'clothing'),
+    ARRAY['https://placehold.co/600x400/334155/ffffff?text=Jeans'],
+    ARRAY['womens', 'denim', 'jeans', 'slim-fit', 'casual'],
+    'CLO-002', FALSE, TRUE
+),
+(
+    'Unisex Hooded Sweatshirt',
+    'Brushed fleece hoodie with kangaroo pocket and adjustable drawstring. 350 GSM. Unisex fit.',
+    999.00, 1499.00, 400.00, 180, 20,
+    600,
+    (SELECT id FROM public.categories WHERE slug = 'clothing'),
+    ARRAY['https://placehold.co/600x400/334155/ffffff?text=Hoodie'],
+    ARRAY['hoodie', 'unisex', 'fleece', 'casual', 'winter'],
+    'CLO-003', TRUE, TRUE
+),
+(
+    'Kids'' Waterproof Rain Jacket',
+    'Lightweight packable rain jacket for kids. Sealed seams, mesh lining, reflective strips. Ages 4–12.',
+    799.00, 1199.00, 350.00, 90, 10,
+    280,
+    (SELECT id FROM public.categories WHERE slug = 'clothing'),
+    ARRAY['https://placehold.co/600x400/334155/ffffff?text=Rain+Jacket'],
+    ARRAY['kids', 'jacket', 'waterproof', 'outdoor', 'rain'],
+    'CLO-004', FALSE, TRUE
+),
+
+-- Books
+(
+    'Atomic Habits — James Clear',
+    'An easy and proven way to build good habits and break bad ones. #1 New York Times bestseller.',
+    599.00, NULL, 200.00, 100, 10,
+    320,
+    (SELECT id FROM public.categories WHERE slug = 'books'),
+    ARRAY['https://placehold.co/600x400/0f172a/ffffff?text=Atomic+Habits'],
+    ARRAY['self-help', 'habits', 'productivity', 'bestseller'],
+    'BOOK-002', TRUE, TRUE
+),
+(
+    'Clean Code — Robert C. Martin',
+    'A handbook of agile software craftsmanship covering naming, functions, comments, and refactoring.',
+    749.00, NULL, 280.00, 60, 5,
+    430,
+    (SELECT id FROM public.categories WHERE slug = 'books'),
+    ARRAY['https://placehold.co/600x400/0f172a/ffffff?text=Clean+Code'],
+    ARRAY['programming', 'software-engineering', 'best-practices', 'education'],
+    'BOOK-003', FALSE, TRUE
+),
+
+-- Home & Kitchen
+(
+    'Stainless Steel Insulated Water Bottle — 1L',
+    'Double-wall vacuum insulation. Keeps drinks cold 24h, hot 12h. BPA-free. Wide mouth lid.',
+    699.00, 999.00, 280.00, 200, 15,
+    290,
+    (SELECT id FROM public.categories WHERE slug = 'home-kitchen'),
+    ARRAY['https://placehold.co/600x400/1e3a5f/ffffff?text=Water+Bottle'],
+    ARRAY['bottle', 'insulated', 'stainless-steel', 'kitchen', 'hydration'],
+    'HOME-001', FALSE, TRUE
+),
+(
+    'Non-Stick Frying Pan Set — 3 Piece',
+    'Granite-coated aluminium pans. 20cm, 24cm, 28cm. Induction compatible. Dishwasher safe.',
+    2499.00, 3499.00, 1100.00, 45, 5,
+    1800,
+    (SELECT id FROM public.categories WHERE slug = 'home-kitchen'),
+    ARRAY['https://placehold.co/600x400/1e3a5f/ffffff?text=Frying+Pan'],
+    ARRAY['cookware', 'non-stick', 'kitchen', 'induction', 'granite'],
+    'HOME-002', TRUE, TRUE
+),
+(
+    'Bamboo Cutting Board Set — 3 Piece',
+    'Eco-friendly bamboo boards in three sizes with juice groove and easy-grip handles.',
+    899.00, 1299.00, 350.00, 120, 10,
+    950,
+    (SELECT id FROM public.categories WHERE slug = 'home-kitchen'),
+    ARRAY['https://placehold.co/600x400/1e3a5f/ffffff?text=Cutting+Board'],
+    ARRAY['kitchen', 'bamboo', 'cutting-board', 'eco-friendly'],
+    'HOME-003', FALSE, TRUE
+),
+
+-- Sports
+(
+    'Adjustable Dumbbell Set — 2–24kg',
+    'Quick-select dial adjusts weight in 2kg increments. Replaces 9 pairs of dumbbells. Compact storage.',
+    8999.00, 12000.00, 5000.00, 20, 3,
+    12000,
+    (SELECT id FROM public.categories WHERE slug = 'sports'),
+    ARRAY['https://placehold.co/600x400/0f4c75/ffffff?text=Dumbbells'],
+    ARRAY['dumbbells', 'weights', 'fitness', 'gym', 'strength'],
+    'SPORT-002', TRUE, TRUE
+),
+(
+    'Running Shoes — Lightweight Mesh',
+    'Breathable knit upper with responsive foam midsole. Suitable for road running. Unisex sizes 6–12.',
+    2999.00, 4500.00, 1400.00, 70, 8,
+    280,
+    (SELECT id FROM public.categories WHERE slug = 'sports'),
+    ARRAY['https://placehold.co/600x400/0f4c75/ffffff?text=Running+Shoes'],
+    ARRAY['shoes', 'running', 'fitness', 'unisex', 'lightweight'],
+    'SPORT-003', FALSE, TRUE
+),
+
+-- Beauty
+(
+    'Vitamin C Face Serum — 30ml',
+    '15% L-Ascorbic Acid serum with hyaluronic acid and vitamin E. Brightens, firms, and evens skin tone.',
+    999.00, 1499.00, 350.00, 150, 15,
+    85,
+    (SELECT id FROM public.categories WHERE slug = 'beauty'),
+    ARRAY['https://placehold.co/600x400/4a1d5f/ffffff?text=Serum'],
+    ARRAY['skincare', 'serum', 'vitamin-c', 'brightening', 'anti-aging'],
+    'BEAU-001', TRUE, TRUE
+),
+(
+    'Natural Lip Balm — Pack of 6',
+    'SPF 15 lip balm with shea butter and beeswax. Assorted flavours: cherry, vanilla, mint, coconut, mango, strawberry.',
+    349.00, 499.00, 120.00, 300, 25,
+    60,
+    (SELECT id FROM public.categories WHERE slug = 'beauty'),
+    ARRAY['https://placehold.co/600x400/4a1d5f/ffffff?text=Lip+Balm'],
+    ARRAY['lip-balm', 'spf', 'natural', 'shea-butter'],
+    'BEAU-002', FALSE, TRUE
+),
+
+-- Toys
+(
+    'STEM Building Blocks — 120 Pieces',
+    'Compatible magnetic tiles for creative 3D building. Safe ABS plastic. Ages 3+. Includes activity guide.',
+    1499.00, 1999.00, 700.00, 80, 10,
+    950,
+    (SELECT id FROM public.categories WHERE slug = 'toys'),
+    ARRAY['https://placehold.co/600x400/7c3aed/ffffff?text=Building+Blocks'],
+    ARRAY['stem', 'blocks', 'magnetic', 'educational', 'kids'],
+    'TOY-001', TRUE, TRUE
+),
+(
+    'Remote Control Car — Off-Road 4WD',
+    '1:16 scale RC car with 2.4GHz control, 30 km/h top speed, and waterproof body. Includes rechargeable battery.',
+    2199.00, 2999.00, 1000.00, 55, 5,
+    1100,
+    (SELECT id FROM public.categories WHERE slug = 'toys'),
+    ARRAY['https://placehold.co/600x400/7c3aed/ffffff?text=RC+Car'],
+    ARRAY['rc-car', 'remote-control', '4wd', 'kids', 'outdoor'],
+    'TOY-002', FALSE, TRUE
+),
+
+-- Grocery
+(
+    'Cold-Pressed Virgin Coconut Oil — 500ml',
+    'Unrefined, chemical-free coconut oil. Suitable for cooking, baking, and skin care. Glass bottle.',
+    399.00, 549.00, 150.00, 200, 20,
+    550,
+    (SELECT id FROM public.categories WHERE slug = 'grocery'),
+    ARRAY['https://placehold.co/600x400/166534/ffffff?text=Coconut+Oil'],
+    ARRAY['grocery', 'coconut-oil', 'organic', 'cooking', 'cold-pressed'],
+    'GROC-001', FALSE, TRUE
+),
+(
+    'Mixed Nuts & Dry Fruits — 500g',
+    'Premium mix of cashews, almonds, walnuts, raisins and pistachios. No added salt or sugar. Resealable pouch.',
+    649.00, 899.00, 300.00, 180, 20,
+    510,
+    (SELECT id FROM public.categories WHERE slug = 'grocery'),
+    ARRAY['https://placehold.co/600x400/166534/ffffff?text=Mixed+Nuts'],
+    ARRAY['nuts', 'dry-fruits', 'healthy', 'snacks', 'grocery'],
+    'GROC-002', TRUE, TRUE
+)
+
+ON CONFLICT (sku) DO NOTHING;
