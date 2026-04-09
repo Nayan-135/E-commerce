@@ -24,22 +24,22 @@ exports.handleMessage = asyncHandler(async (req, res) => {
       return res.json({ reply: "I am Nexus AI. Grok API Key is not configured yet! Please update Backend/.env" });
     }
 
-    const response = await fetch('https://api.x.ai/v1/chat/completions', {
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        model: 'grok-2-latest',
+        model: 'llama-3.1-8b-instant',
         messages: formattedHistory,
         temperature: 0.7,
       })
     });
 
     if (!response.ok) {
-      console.error('Grok API Error:', await response.text());
-      throw new Error('Grok API disconnected');
+      console.error('Groq API Error:', await response.text());
+      throw new Error('Groq API disconnected');
     }
 
     const data = await response.json();

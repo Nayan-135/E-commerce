@@ -1,15 +1,17 @@
-const mockDb = require('./mockDb');
+const { createClient } = require('@supabase/supabase-js');
 
-const supabase = {
-  auth: {
-    getUser: async (token) => {
-      const user = mockDb.users.find(u => u.token === token);
-      if (user) return { data: { user } };
-      return { data: { user: null }, error: new Error('Invalid mock token') };
-    }
-  }
-};
+if (!process.env.SUPABASE_URL || !process.env.SUPABASE_ANON_KEY) {
+  console.warn('⚠️  Supabase URL or Anon Key is missing. Check .env configuration.');
+}
 
-const supabaseAdmin = {}; // Mocked in controllers explicitly to bypass
+const supabase = createClient(
+  process.env.SUPABASE_URL || '',
+  process.env.SUPABASE_ANON_KEY || ''
+);
+
+// Admin client bypasses RLS
+const supabaseAdmin = process.env.SUPABASE_SERVICE_ROLE_KEY 
+  ? createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
+  : supabase;
 
 module.exports = { supabase, supabaseAdmin };

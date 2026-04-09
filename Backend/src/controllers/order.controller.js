@@ -1,39 +1,56 @@
 const { asyncHandler } = require('../middleware/error.middleware');
-const mockDb = require('../config/mockDb');
+const { supabase, supabaseAdmin } = require('../config/supabase');
 
 exports.create = asyncHandler(async (req, res) => {
   const { items, billing_address_id } = req.body;
-  
   if (!items || items.length === 0) return res.status(400).json({ error: 'No items specified in the order' });
   
-  // Calculate a fake total based on items in mockDb
   let total = 0;
-  const enrichedItems = items.map(item => {
-    const product = mockDb.products.find(p => p.id === item.product_id) || { name: 'Unknown', price: 999 };
-    const cost = product.price * item.quantity;
-    total += cost;
-    return { ...item, product_name: product.name, unit_price: product.price, total_price: cost };
-  });
+  items.forEach(i => total += (i.unit_price * i.quantity));
 
-  const order = {
-    id: 'ORD' + Date.now().toString(),
-    user_id: req.user.id,
-    status: 'confirmed',
-    items: enrichedItems,
-    billing_address_id,
-    subtotal: total, tax_amount: Math.round(total * 0.18), shipping_amount: 0, total_amount: Math.round(total * 1.18),
-    created_at: new Date().toISOString()
-  };
-  
-  mockDb.orders.push(order);
-  
-  // Note: Email sending logic completely removed as per request
-  
-  res.status(201).json(order);
+  // 1. Insert Order using Service Role explicitly to bypass RLS in the background.
+  const { data: orderData, error: orderError } = await supabaseAdmin
+    .from('orders')
+    .insert([{
+      user_id: req.user.id,
+      status: 'confirmed',
+      subtotal: total.toFixed(2),
+      tax_amount: (total * 0.18).toFixed(2),
+      total_amount: (total * 1.18).toFixed(2),
+      billing_address_id: billing_address_id || null
+    }])
+    .select()
+    .single();
+
+  if (orderError || !orderData) return res.status(500).json({ error: orderError?.message || 'Order failed' });
+
+  // 2. Insert Order Items using Service Role
+  const orderItems = items.map(item => ({
+    order_id: orderData.id,
+    product_id: item.product_id,
+    product_name: item.product_name || 'Item',
+    quantity: item.quantity,
+    unit_price: item.unit_price,
+    total_price: item.unit_price * item.quantity
+  }));
+
+  const { error: itemsError } = await supabaseAdmin.from('order_items').insert(orderItems);
+  if (itemsError) return res.status(500).json({ error: itemsError.message });
+
+  // Attach items for frontend render bypass
+  const fullOrder = { ...orderData, items: orderItems };
+  res.status(201).json(fullOrder);
 });
 
 exports.getMyOrders = asyncHandler(async (req, res) => {
-  res.json({ data: mockDb.orders.filter(o => o.user_id === req.user.id) });
+  const { data, error } = await supabaseAdmin
+    .from('orders')
+    .select('*, order_items(*)')
+    .eq('user_id', req.user.id)
+    .order('created_at', { ascending: false });
+
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ data });
 });
 
 exports.getById = asyncHandler(async (req, res) => res.json({}));

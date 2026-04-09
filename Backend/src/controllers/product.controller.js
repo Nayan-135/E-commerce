@@ -1,14 +1,16 @@
 const { asyncHandler } = require('../middleware/error.middleware');
-const mockDb = require('../config/mockDb');
+const { supabase } = require('../config/supabase');
 
 exports.getAll = asyncHandler(async (req, res) => {
-  res.json({ products: mockDb.products });
+  const { data, error } = await supabase.from('products').select('*');
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ products: data });
 });
 
 exports.getById = asyncHandler(async (req, res) => {
-  const product = mockDb.products.find(p => p.id === req.params.id);
-  if (!product) return res.status(404).json({ error: 'Product not found' });
-  res.json(product);
+  const { data, error } = await supabase.from('products').select('*').eq('id', req.params.id).single();
+  if (error || !data) return res.status(404).json({ error: 'Product not found' });
+  res.json(data);
 });
 
 exports.search = asyncHandler(async (req, res) => {
